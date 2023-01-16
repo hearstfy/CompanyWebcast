@@ -45,9 +45,9 @@ namespace CompanyWebcast.Domain.WeatherForecast.Entities
             TemperatureC = temprature;
         }
 
-        public static WeatherForecastHourly Create(int startHour, int endHour, double temprature)
+        public static WeatherForecastHourly Create(int startHour, int endHour, double temperature)
         {
-            return new(WeatherForecastHourlyId.Create(Guid.NewGuid()), startHour, endHour, temprature);
+            return new(WeatherForecastHourlyId.Create(Guid.NewGuid()), startHour, endHour, temperature);
         }
 
     #pragma warning disable CS8618
