@@ -34,9 +34,21 @@ namespace CompanyWebcast.Application.Services
             return weeklyForecast.ConvertAll(wf => wf.ToDTO());
         }
 
-        public WeatherForecastResponseDTO UpdateWeatherForecast()
+        public async Task<WeatherForecastResponseDTO> UpdateWeatherForecast(Guid id, List<AddWeatherForecastHourlyDTO> forecastHourlyDTOs)
         {
-            throw new NotImplementedException();
+            var existingForecast = await _forecastRepository.GetWeatherForecastById(id);
+            if(existingForecast == null)
+            {
+                throw new ForecastDoesNotExistsException($"Weather forecast with Id {id} does not exist.", 404);
+            }
+
+            var forecastHourlies = forecastHourlyDTOs.ConvertAll(fh => fh.ToEntity());
+            forecastHourlies.AddRange(existingForecast.HourlyForecasts);
+            existingForecast.UpdateHourlyForecasts(forecastHourlies.GroupBy(forecastHourlies => forecastHourlies.StartHour).Select(fhg => fhg.First()).ToList());
+
+            var updatedForecast = await _forecastRepository.UpdateWeatherForecast(existingForecast);
+
+            return updatedForecast.ToDTO();
         }
     }
 }

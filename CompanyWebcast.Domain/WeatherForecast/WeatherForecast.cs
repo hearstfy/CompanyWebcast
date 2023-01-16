@@ -32,6 +32,11 @@ namespace CompanyWebcast.Domain.WeatherForecast
             return new WeatherForecast(WeatherForecastId.Create(Guid.NewGuid()),date, weatherForecastHourlies, DateTime.Now, DateTime.Now);
         }
 
+        public void UpdateHourlyForecasts(List<WeatherForecastHourly> forecastHourlies)
+        {
+            this.HourlyForecasts = forecastHourlies;
+        }
+
 #pragma warning disable CS8618
         private WeatherForecast() { }
 

@@ -6,7 +6,7 @@ namespace CompanyWebcast.Application.Services
     public  interface IWeatherForecastService
     {
         public Task<WeatherForecastResponseDTO> AddWeatherForecast(AddWeatherForecastDTO weatherForecastDTO);
-        public WeatherForecastResponseDTO UpdateWeatherForecast();
+        public Task<WeatherForecastResponseDTO> UpdateWeatherForecast(Guid id, List<AddWeatherForecastHourlyDTO> forecastHourlyDTOs);
         public Task<List<WeatherForecastResponseDTO>> GetWeeklyWeatherForecast();
     }
 }

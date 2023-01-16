@@ -1,5 +1,4 @@
 using CompanyWebcast.Application;
-using CompanyWebcast.Application.Mapper;
 using CompanyWebcast.Infrastructure;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Reflection;
@@ -11,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddApplication();
-builder.Services.AddMappings();
 builder.Services.AddPersistance(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

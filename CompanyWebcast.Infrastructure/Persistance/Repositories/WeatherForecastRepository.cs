@@ -1,5 +1,6 @@
 ﻿using CompanyWebcast.Application.Common.Interfaces.Persistance;
 using CompanyWebcast.Domain.WeatherForecast;
+using CompanyWebcast.Domain.WeatherForecast.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyWebcast.Infrastructure.Persistance.Repositories
@@ -22,9 +23,15 @@ namespace CompanyWebcast.Infrastructure.Persistance.Repositories
 
         public WeatherForecast GetWeatherForecastByDate(DateOnly date)
         {
-            var forecast =  _dbContext.WeatherForecasts.FirstOrDefault(x => x.Date == date);
+            var forecast = _dbContext.WeatherForecasts.FirstOrDefault(x => x.Date == date);
             return forecast;
         }
+        public async Task<WeatherForecast> GetWeatherForecastById(Guid id)
+        {
+            var forecast = await _dbContext.WeatherForecasts.FindAsync(WeatherForecastId.Create(id));
+            return forecast;
+        }
+
 
         public async Task<List<WeatherForecast>> GetWeeklyWeatherForecast()
         {
@@ -35,9 +42,12 @@ namespace CompanyWebcast.Infrastructure.Persistance.Repositories
             return weeklyForecast;
         }
 
-        public Task<WeatherForecast> UpdateWeatherForecast(int weatherForecastId, WeatherForecast weatherForecast)
+        public async Task<WeatherForecast> UpdateWeatherForecast(WeatherForecast weatherForecast)
         {
-            throw new NotImplementedException();
+            var updatedForecast = _dbContext.Update(weatherForecast).Entity;
+            await _dbContext.SaveChangesAsync();
+            return updatedForecast;
+
         }
     }
 }

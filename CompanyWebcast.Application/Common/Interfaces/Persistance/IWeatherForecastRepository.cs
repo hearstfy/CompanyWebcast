@@ -6,7 +6,8 @@ namespace CompanyWebcast.Application.Common.Interfaces.Persistance
     {
         public Task<WeatherForecast> AddWeatherForecast(WeatherForecast weatherForecast);
         public WeatherForecast GetWeatherForecastByDate(DateOnly date);
-        public Task<WeatherForecast> UpdateWeatherForecast(int weatherForecastId, WeatherForecast weatherForecast);
+        public Task<WeatherForecast> GetWeatherForecastById(Guid id);
+        public Task<WeatherForecast> UpdateWeatherForecast(WeatherForecast weatherForecast);
         public Task<List<WeatherForecast>> GetWeeklyWeatherForecast();
     }
 }

@@ -23,9 +23,10 @@ namespace CompanyWebcast.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateForecast()
+        public async Task<IActionResult> UpdateForecast([FromRoute] Guid id, [FromBody]List<AddWeatherForecastHourlyDTO> forecastHourlyDTOs)
         {
-            return Ok();
+            var updatedForecast = await _forecastService.UpdateWeatherForecast(id, forecastHourlyDTOs);
+            return Ok(updatedForecast);
         }
 
         [HttpGet("weekly")]
