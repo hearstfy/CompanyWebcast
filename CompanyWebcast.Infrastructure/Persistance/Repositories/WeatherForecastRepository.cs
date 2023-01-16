@@ -31,7 +31,7 @@ namespace CompanyWebcast.Infrastructure.Persistance.Repositories
             var now = DateOnly.FromDateTime(DateTime.Now);
             var weekLater = now.AddDays(7);
 
-            var weeklyForecast = await _dbContext.WeatherForecasts.Where(wf => wf.Date >= now && wf.Date < weekLater).ToListAsync();
+            var weeklyForecast = _dbContext.WeatherForecasts.Where(wf => wf.Date >= now && wf.Date < weekLater).OrderBy(wf => wf.Date).ToList();
             return weeklyForecast;
         }
 
