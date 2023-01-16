@@ -15,7 +15,7 @@ namespace CompanyWebcast.Application.Common.Validations
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             var providedForecastsProperty = validationContext.ObjectType.GetProperty(_hourlyForecastsProperty);
-            var providedForecasts = (List<WeatherForecastHourlyDTO>)providedForecastsProperty.GetValue(validationContext.ObjectInstance);
+            var providedForecasts = (List<AddWeatherForecastHourlyDTO>)providedForecastsProperty.GetValue(validationContext.ObjectInstance);
             var providedDate = ((DateTime)value).Day;
             var now= DateTime.Now;
 
@@ -27,29 +27,6 @@ namespace CompanyWebcast.Application.Common.Validations
             return ValidationResult.Success;
         }
     }
-
-    //public class CurrentHourOrLater : ValidationAttribute
-    //{
-    //    private readonly string _dateProperty;
-
-    //    public CurrentHourOrLater(string dateProperty)
-    //    {
-    //        _dateProperty = dateProperty;
-    //    }
-
-    //    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
-    //    {
-    //        var providedDateProperty = validationContext.ObjectType.GetProperty(_dateProperty);
-    //        var providedDate = DateOnly.FromDateTime((DateTime)providedDateProperty.GetValue(validationContext.ObjectInstance));
-    //        var providedHour = (int)value;
-
-    //        if(providedDate == DateOnly.FromDateTime(DateTime.Now) && providedHour >= DateTime.Now.Hour)
-    //        {
-    //            return ValidationResult.Success;
-    //        }
-    //        return new ValidationResult("You can only add hourly forecasts for current hour and later");
-    //    }
-    //}
 
     public class CompareHours: ValidationAttribute
     {
