@@ -16,10 +16,10 @@ namespace CompanyWebcast.API.Controllers
         }
 
         [HttpPost()]
-        public async Task<IActionResult> AddForecast([FromBody]WeatherForecastDTO forecastDTO)
+        public async Task<IActionResult> AddForecast([FromBody]AddWeatherForecastDTO forecastDTO)
         {
             var newForecast = await _forecastService.AddWeatherForecast(forecastDTO);
-            return CreatedAtAction(nameof(AddForecast), newForecast);
+            return Created(nameof(AddForecast), newForecast);
         }
 
         [HttpPut("{id}")]
@@ -31,7 +31,7 @@ namespace CompanyWebcast.API.Controllers
         [HttpGet("weekly")]
         public async Task<IActionResult> GetWeeklyForecast()
         {
-            var result = _forecastService.GetWeeklyWeatherForecast();
+            var result = await _forecastService.GetWeeklyWeatherForecast();
             return Ok(result);
         }
     }
