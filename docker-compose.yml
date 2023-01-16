@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:    
+    mariadb:
+        image: mariadb:latest
+        ports:
+        - 3306:3306
+        volumes:
+         - mariadb_data_container:/var/lib/mysql
+        environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_PASSWORD=admin
+        - MYSQL_USER=admin
+        - MYSQL_DATABASE=dbo
+
+volumes:
+  mariadb_data_container:
