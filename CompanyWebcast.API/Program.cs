@@ -35,8 +35,8 @@ app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext httpContext) =>
 {
     Exception? exception = httpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
-
-    if (exception?.GetType() == typeof(ApplicationException))
+    
+    if (exception?.GetType().BaseType == typeof(ApplicationException))
     {
         return Results.Problem(title: exception.Message, statusCode: ((ApplicationException)exception).StatusCode);
     }
