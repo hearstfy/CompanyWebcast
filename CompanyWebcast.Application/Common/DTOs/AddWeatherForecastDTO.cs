@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CompanyWebcast.Application.Common.DTOs
 {
-    public class WeatherForecastDTO
+    public record AddWeatherForecastDTO
     {
         [Required]
         [NowOrLater(nameof(WeatherForecastsHourly))]
@@ -11,6 +11,6 @@ namespace CompanyWebcast.Application.Common.DTOs
         [Required]
         [MinLength(1, ErrorMessage = "At least one hourly forecast is needed.")]
         [MaxLength(24, ErrorMessage ="Maximum 24 hourly forecasts is allowed")]
-        public List<WeatherForecastHourlyDTO> WeatherForecastsHourly { get; set;}
+        public List<AddWeatherForecastHourlyDTO> WeatherForecastsHourly { get; set;}
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CompanyWebcast.Application.Common.DTOs
 {
-    public class WeatherForecastHourlyDTO
+    public record AddWeatherForecastHourlyDTO
     {
         [Required]
         [Range(0,23)]
@@ -14,7 +14,7 @@ namespace CompanyWebcast.Application.Common.DTOs
         public int EndHour { get; set; }
         [Required]
         [Range(-60.0, 60.0)]
-        public double TempratureC { get; set; }
+        public double? TemperatureC { get; set; }
 
     }
 }
