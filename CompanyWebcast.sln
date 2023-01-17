@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyWebcast.API", "Compa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyWebcast.Domain", "CompanyWebcast.Domain\CompanyWebcast.Domain.csproj", "{1FB59871-5873-44F4-A71E-94E76AB0C2BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyWebcast.Infrastructure", "CompanyWebcast.Infrastructure\CompanyWebcast.Infrastructure.csproj", "{40FAE5B4-2DE0-46D2-8F5D-7AB2B2330534}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyWebcast.Infrastructure", "CompanyWebcast.Infrastructure\CompanyWebcast.Infrastructure.csproj", "{40FAE5B4-2DE0-46D2-8F5D-7AB2B2330534}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyWebcast.Application", "CompanyWebcast.Application\CompanyWebcast.Application.csproj", "{DE709EB0-BD60-49B3-BA3F-15C8A551923C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyWebcast.Application", "CompanyWebcast.Application\CompanyWebcast.Application.csproj", "{DE709EB0-BD60-49B3-BA3F-15C8A551923C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyWebcast.UnitTests", "CompanyWebcast.UnitTests\CompanyWebcast.UnitTests.csproj", "{CD73D942-54B0-4BFA-A92B-836222C760F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DE709EB0-BD60-49B3-BA3F-15C8A551923C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE709EB0-BD60-49B3-BA3F-15C8A551923C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE709EB0-BD60-49B3-BA3F-15C8A551923C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD73D942-54B0-4BFA-A92B-836222C760F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD73D942-54B0-4BFA-A92B-836222C760F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD73D942-54B0-4BFA-A92B-836222C760F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD73D942-54B0-4BFA-A92B-836222C760F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
