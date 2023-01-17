@@ -26,9 +26,6 @@ namespace CompanyWebcast.Infrastructure.Persistance.Configurations
                 .ValueGeneratedNever()
                 .HasConversion( id => id.Value, value => WeatherForecastHourlyId.Create(value));
             });
-
-            //builder.Metadata.FindNavigation(nameof(WeatherForecast.HourlyForecasts))!
-            //    .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
 
         private void ConfigureWeatherForecastTable(EntityTypeBuilder<WeatherForecast> builder)
@@ -44,8 +41,6 @@ namespace CompanyWebcast.Infrastructure.Persistance.Configurations
             builder.Property(wf => wf.Date)
                 .HasColumnType("date");
 
-            //builder.Metadata.FindNavigation(nameof(WeatherForecast.HourlyForecasts))!
-            //    .SetPropertyAccessMode(PropertyAccessMode.PreferFieldDuringConstruction);
         }
     }
 }
