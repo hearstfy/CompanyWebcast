@@ -1,6 +1,8 @@
 using CompanyWebcast.Application;
 using CompanyWebcast.Infrastructure;
+using CompanyWebcast.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using ApplicationException = CompanyWebcast.Application.Common.Exceptions.ApplicationException;
 
@@ -21,19 +23,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext httpContext) =>
 {
     Exception? exception = httpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
-    
+
     if (exception?.GetType().BaseType == typeof(ApplicationException))
     {
         return Results.Problem(title: exception.Message, statusCode: ((ApplicationException)exception).StatusCode);
@@ -42,5 +38,14 @@ app.Map("/error", (HttpContext httpContext) =>
     return Results.Problem(title: exception?.Message);
 });
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDBContext>();
+    context.Database.Migrate();
+}
+
 
 app.Run();
