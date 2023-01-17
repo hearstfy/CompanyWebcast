@@ -23,7 +23,7 @@ namespace CompanyWebcast.Domain.WeatherForecast.Entities
                 return TemperatureC switch
                 {
                     <= 60 and >=55.1 => "Scorching",
-                    <= 50 and >= 40.1 => "Sweltering",
+                    <= 55 and >= 40.1 => "Sweltering",
                     <= 40 and >= 30.1 => "Hot",
                     <= 30 and >= 25.1 => "Balmy",
                     <= 25 and >= 20.1 => "Warm",
