@@ -29,7 +29,7 @@ namespace CompanyWebcast.UnitTests.Systems.Services
         }
 
         [Fact]
-        public async void GivenSevenOrMoreForecastsExist_GetWeeklyForecasts_ShouldReturn_WeeklyForecastStartingFromToday()
+        public async void GivenSevenOrMoreForecastsExistFromToday_GetWeeklyForecasts_ShouldReturn_WeeklyForecastStartingFromToday()
         {
             dbContext.DeleteAll();
             dbContext.Populate(10);
@@ -41,7 +41,7 @@ namespace CompanyWebcast.UnitTests.Systems.Services
         }
 
         [Fact]
-        public async void GivenEqualOrLessThanSevenForecastsExist_GetWeeklyForecasts_ShouldReturn_AllWeeklyForecastStartingFromToday()
+        public async void GivenEqualOrLessThanSevenForecastsFromTodayExist_GetWeeklyForecasts_ShouldReturn_AllWeeklyForecastStartingFromToday()
         {
             dbContext.DeleteAll();
             dbContext.Populate(6);
