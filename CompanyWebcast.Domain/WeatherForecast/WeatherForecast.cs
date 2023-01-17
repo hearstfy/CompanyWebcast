@@ -6,8 +6,6 @@ namespace CompanyWebcast.Domain.WeatherForecast
 {
     public sealed class WeatherForecast : AggregateRoot<WeatherForecastId>
     {
-        private readonly List<WeatherForecastHourly> _hourlyForecast = new();
-
         public DateOnly Date { get; private set; }
         public List<WeatherForecastHourly> HourlyForecasts { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -21,12 +19,6 @@ namespace CompanyWebcast.Domain.WeatherForecast
             CreatedAt = createdAt;
             ModifiedAt = modifiedAt;
         }
-
-        //public static WeatherForecast Create()
-        //{
-        //    return new WeatherForecast(WeatherForecastId.Create(Guid.NewGuid()), DateTime.UtcNow, DateTime.UtcNow);
-        //}
-
         public static WeatherForecast Create(DateOnly date, List<WeatherForecastHourly> weatherForecastHourlies )
         {
             return new WeatherForecast(WeatherForecastId.Create(Guid.NewGuid()),date, weatherForecastHourlies, DateTime.Now, DateTime.Now);
@@ -37,7 +29,7 @@ namespace CompanyWebcast.Domain.WeatherForecast
             this.HourlyForecasts = forecastHourlies;
         }
 
-#pragma warning disable CS8618
+    #pragma warning disable CS8618
         private WeatherForecast() { }
 
     #pragma warning restore CS8618
