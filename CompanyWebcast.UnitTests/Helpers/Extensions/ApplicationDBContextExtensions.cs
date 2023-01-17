@@ -1,6 +1,6 @@
 ﻿using CompanyWebcast.Domain.WeatherForecast;
 using CompanyWebcast.Infrastructure.Persistance;
-using CompanyWebcast.UnitTests.Fixtures;
+using CompanyWebcast.UnitTests.Helpers.DataProviders;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -10,7 +10,7 @@ namespace CompanyWebcast.UnitTests.Helpers.Extensions
     {
         public static ApplicationDBContext Populate(this ApplicationDBContext context, int size)
         {
-            var forecasts = WeatherForecastFixture.GetWeatherForecasts(size);
+            var forecasts = WeatherForecastDataProvider.GetWeatherForecasts(size);
             context.WeatherForecasts.AddRange(forecasts);
             context.SaveChanges();
 
