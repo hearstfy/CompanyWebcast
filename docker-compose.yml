@@ -3,6 +3,7 @@ version: "3.9"
 services:    
     mariadb:
         image: mariadb:latest
+        container_name: mariadb
         ports:
         - 3306:3306
         volumes:
@@ -12,6 +13,18 @@ services:
         - MYSQL_PASSWORD=admin
         - MYSQL_USER=admin
         - MYSQL_DATABASE=dbo
-
+    api:
+        container_name: api
+        ports:
+        - 5001:5001
+        build:
+            dockerfile: ./CompanyWebcast.API/Dockerfile
+            context: .
+        environment:
+        - ASPNETCORE_URLS=http://+:5001
+        - ConnectionStrings__MariaDB=server=mariadb;port=3306;user=admin;password=admin;database=dbo
+        depends_on:
+        - mariadb
+            
 volumes:
   mariadb_data_container:
