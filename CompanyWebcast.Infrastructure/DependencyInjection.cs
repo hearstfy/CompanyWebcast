@@ -16,10 +16,7 @@ namespace CompanyWebcast.Infrastructure
 
             services.AddDbContext<ApplicationDBContext>(options =>
             {
-                options.UseMySql(configuration.GetConnectionString("MariaDB"), serverVersion)
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
+                options.UseMySql(configuration.GetConnectionString("MariaDB"), serverVersion);
             });
 
             services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
