@@ -19,7 +19,7 @@ namespace CompanyWebcast.Application.Services
             var existingForecast = _forecastRepository.GetWeatherForecastByDate(DateOnly.FromDateTime(weatherForecastDTO.Date.GetValueOrDefault(DateTime.Now)));
             if(existingForecast is not null)
             {
-                throw new ForecastAlreadyExistsException($"Weather forecast for Day {weatherForecastDTO.Date?.ToString("dd-MM-yyyy")} already exists. You can only update it.", 409);
+                throw new ForecastAlreadyExistsException($"Weather forecast for Day {weatherForecastDTO.Date?.ToString("dd-MM-yyyy")} already exists. You can only update it.");
             }
 
             var weatherForecast = weatherForecastDTO.ToAggregate();
@@ -39,7 +39,7 @@ namespace CompanyWebcast.Application.Services
             var existingForecast = await _forecastRepository.GetWeatherForecastById(id);
             if(existingForecast == null)
             {
-                throw new ForecastDoesNotExistsException($"Weather forecast with Id {id} does not exist.", 404);
+                throw new ForecastDoesNotExistsException($"Weather forecast with Id {id} does not exist.");
             }
 
             var forecastHourlies = forecastHourlyDTOs.ConvertAll(fh => fh.ToEntity());

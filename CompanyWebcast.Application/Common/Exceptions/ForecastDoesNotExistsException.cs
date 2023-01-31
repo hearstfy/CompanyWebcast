@@ -1,8 +1,8 @@
 ﻿namespace CompanyWebcast.Application.Common.Exceptions
 {
-    public class ForecastDoesNotExistsException : ApplicationException
+    public class ForecastDoesNotExistsException : Exception
     {
-        public ForecastDoesNotExistsException(string? message, int? statusCode) : base(message, statusCode)
+        public ForecastDoesNotExistsException(string message) : base(message)
         {
         }
     }
