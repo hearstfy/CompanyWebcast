@@ -26,10 +26,36 @@ namespace CompanyWebcast.Domain.WeatherForecast
 
         public void UpdateHourlyForecasts(List<WeatherForecastHourly> forecastHourlies)
         {
-            this.HourlyForecasts = forecastHourlies;
+            UpdateExistingHourlies(forecastHourlies);
+            AddNewHourlies(forecastHourlies);
+            HourlyForecasts.OrderBy(hf => hf.StartHour);
         }
 
-    #pragma warning disable CS8618
+        private void UpdateExistingHourlies(List<WeatherForecastHourly> forecastHourlies)
+        {
+            foreach(var forecastHourly in forecastHourlies)
+            {
+                var existingHourly = HourlyForecasts.FirstOrDefault(hf => hf.StartHour == forecastHourly.StartHour);
+                if(existingHourly != null)
+                {
+                    existingHourly.SetTemperature(forecastHourly.TemperatureC);
+                }
+            }
+        }
+
+        private void AddNewHourlies(List<WeatherForecastHourly> forecastHourlies)
+        {
+            foreach (var forecastHourly in forecastHourlies)
+            {
+                var existingHourly = HourlyForecasts.FirstOrDefault(hf => hf.StartHour == forecastHourly.StartHour);
+                if (existingHourly == null)
+                {
+                    HourlyForecasts.Add(WeatherForecastHourly.Create(forecastHourly.StartHour, forecastHourly.EndHour, forecastHourly.TemperatureC));
+                }
+            }
+        }
+
+#pragma warning disable CS8618
         private WeatherForecast() { }
 
     #pragma warning restore CS8618

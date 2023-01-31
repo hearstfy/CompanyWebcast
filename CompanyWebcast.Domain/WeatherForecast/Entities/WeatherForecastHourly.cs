@@ -50,6 +50,11 @@ namespace CompanyWebcast.Domain.WeatherForecast.Entities
             return new(WeatherForecastHourlyId.Create(Guid.NewGuid()), startHour, endHour, temperature);
         }
 
+        public void SetTemperature(double temperature)
+        {
+            TemperatureC = temperature;
+        }
+
     #pragma warning disable CS8618
         private WeatherForecastHourly() { }
 

@@ -43,8 +43,7 @@ namespace CompanyWebcast.Application.Services
             }
 
             var forecastHourlies = forecastHourlyDTOs.ConvertAll(fh => fh.ToEntity());
-            forecastHourlies.AddRange(existingForecast.HourlyForecasts);
-            existingForecast.UpdateHourlyForecasts(forecastHourlies.GroupBy(forecastHourlies => forecastHourlies.StartHour).Select(fhg => fhg.First()).ToList());
+            existingForecast.UpdateHourlyForecasts(forecastHourlies);
 
             var updatedForecast = await _forecastRepository.UpdateWeatherForecast(existingForecast);
 
