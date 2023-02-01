@@ -1,4 +1,4 @@
-﻿using CompanyWebcast.Application.Common.DTOs;
+﻿using CompanyWebcast.API.DTOs;
 using System.ComponentModel.DataAnnotations;
 
 namespace CompanyWebcast.Application.Common.Validations

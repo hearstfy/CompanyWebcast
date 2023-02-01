@@ -21,9 +21,9 @@ namespace CompanyWebcast.Infrastructure.Persistance.Repositories
             return newForecast;
         }
 
-        public WeatherForecast GetWeatherForecastByDate(DateOnly date)
+        public async Task<WeatherForecast> GetWeatherForecastByDate(DateOnly date)
         {
-            var forecast = _dbContext.WeatherForecasts.FirstOrDefault(x => x.Date == date);
+            var forecast = await _dbContext.WeatherForecasts.FirstOrDefaultAsync(x => x.Date == date);
             return forecast;
         }
         public async Task<WeatherForecast> GetWeatherForecastById(Guid id)
@@ -38,7 +38,7 @@ namespace CompanyWebcast.Infrastructure.Persistance.Repositories
             var now = DateOnly.FromDateTime(DateTime.Now);
             var weekLater = now.AddDays(7);
 
-            var weeklyForecast = _dbContext.WeatherForecasts.Where(wf => wf.Date >= now && wf.Date < weekLater).OrderBy(wf => wf.Date).ToList();
+            var weeklyForecast = await _dbContext.WeatherForecasts.Where(wf => wf.Date >= now && wf.Date < weekLater).OrderBy(wf => wf.Date).ToListAsync();
             return weeklyForecast;
         }
 

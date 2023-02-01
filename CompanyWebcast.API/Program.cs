@@ -1,10 +1,11 @@
 using CompanyWebcast.Application;
+using CompanyWebcast.Application.Common.Exceptions;
 using CompanyWebcast.Infrastructure;
 using CompanyWebcast.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Reflection;
-using ApplicationException = CompanyWebcast.Application.Common.Exceptions.ApplicationException;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,12 +31,15 @@ app.Map("/error", (HttpContext httpContext) =>
 {
     Exception? exception = httpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
 
-    if (exception?.GetType().BaseType == typeof(ApplicationException))
+    switch (exception)
     {
-        return Results.Problem(title: exception.Message, statusCode: ((ApplicationException)exception).StatusCode);
+        case ForecastAlreadyExistsException:
+            return Results.Problem(title: exception.Message, statusCode: (int)HttpStatusCode.Conflict);
+        case ForecastDoesNotExistsException e:
+            return Results.Problem(title: exception.Message, statusCode: (int)HttpStatusCode.NotFound);
+        default:
+            return Results.Problem(title: exception.Message);
     }
-
-    return Results.Problem(title: exception?.Message);
 });
 app.MapControllers();
 

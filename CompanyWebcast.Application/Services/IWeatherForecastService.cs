@@ -1,12 +1,12 @@
-﻿using CompanyWebcast.Application.Common.DTOs;
-using CompanyWebcast.Domain.WeatherForecast;
+﻿using CompanyWebcast.Application.Common.Requests;
+using CompanyWebcast.Application.Common.Responses;
 
 namespace CompanyWebcast.Application.Services
 {
     public  interface IWeatherForecastService
     {
-        public Task<WeatherForecastResponseDTO> AddWeatherForecast(AddWeatherForecastDTO weatherForecastDTO);
-        public Task<WeatherForecastResponseDTO> UpdateWeatherForecast(Guid id, List<AddWeatherForecastHourlyDTO> forecastHourlyDTOs);
-        public Task<List<WeatherForecastResponseDTO>> GetWeeklyWeatherForecast();
+        public Task<AddWeatherForecastResponse> AddWeatherForecast(AddWeatherForecastRequest request);
+        public Task<AddWeatherForecastResponse> UpdateWeatherForecast(UpdateWeatherForecastRequest request);
+        public Task<GetWeatherForecastWeeklyResponse> GetWeeklyWeatherForecast();
     }
 }

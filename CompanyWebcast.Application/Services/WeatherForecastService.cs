@@ -1,7 +1,8 @@
-﻿using CompanyWebcast.Application.Common.DTOs;
-using CompanyWebcast.Application.Common.Exceptions;
+﻿using CompanyWebcast.Application.Common.Exceptions;
 using CompanyWebcast.Application.Common.Interfaces.Persistance;
-using CompanyWebcast.Application.Mapper;
+using CompanyWebcast.Application.Common.Requests;
+using CompanyWebcast.Application.Common.Responses;
+using CompanyWebcast.Application.Mappings;
 
 namespace CompanyWebcast.Application.Services
 {
@@ -14,41 +15,43 @@ namespace CompanyWebcast.Application.Services
             _forecastRepository = forecastRepository;
         }
 
-        public async Task<WeatherForecastResponseDTO> AddWeatherForecast(AddWeatherForecastDTO weatherForecastDTO)
+        public async Task<AddWeatherForecastResponse> AddWeatherForecast(AddWeatherForecastRequest request)
         {
-            var existingForecast = _forecastRepository.GetWeatherForecastByDate(DateOnly.FromDateTime(weatherForecastDTO.Date.GetValueOrDefault(DateTime.Now)));
-            if(existingForecast is not null)
+            var existingForecast = await _forecastRepository.GetWeatherForecastByDate(request.Date);
+            if (existingForecast is not null)
             {
-                throw new ForecastAlreadyExistsException($"Weather forecast for Day {weatherForecastDTO.Date?.ToString("dd-MM-yyyy")} already exists. You can only update it.", 409);
+                throw new ForecastAlreadyExistsException($"Weather forecast for Day {request.Date.ToString("dd-MM-yyyy")} already exists. You can only update it.");
             }
 
-            var weatherForecast = weatherForecastDTO.ToAggregate();
+            var weatherForecast = request.ToAggregate();
 
-            var newForecast = (await _forecastRepository.AddWeatherForecast(weatherForecast)).ToDTO();
-            return newForecast;
+            var newForecast = await _forecastRepository.AddWeatherForecast(weatherForecast);
+            return newForecast.ToResponse();
         }
 
-        public async Task<List<WeatherForecastResponseDTO>> GetWeeklyWeatherForecast()
+        public async Task<GetWeatherForecastWeeklyResponse> GetWeeklyWeatherForecast()
         {
             var weeklyForecast = await _forecastRepository.GetWeeklyWeatherForecast();
-            return weeklyForecast.ConvertAll(wf => wf.ToDTO());
-        }
-
-        public async Task<WeatherForecastResponseDTO> UpdateWeatherForecast(Guid id, List<AddWeatherForecastHourlyDTO> forecastHourlyDTOs)
-        {
-            var existingForecast = await _forecastRepository.GetWeatherForecastById(id);
-            if(existingForecast == null)
+            return new GetWeatherForecastWeeklyResponse()
             {
-                throw new ForecastDoesNotExistsException($"Weather forecast with Id {id} does not exist.", 404);
-            }
-
-            var forecastHourlies = forecastHourlyDTOs.ConvertAll(fh => fh.ToEntity());
-            forecastHourlies.AddRange(existingForecast.HourlyForecasts);
-            existingForecast.UpdateHourlyForecasts(forecastHourlies.GroupBy(forecastHourlies => forecastHourlies.StartHour).Select(fhg => fhg.First()).ToList());
-
-            var updatedForecast = await _forecastRepository.UpdateWeatherForecast(existingForecast);
-
-            return updatedForecast.ToDTO();
-        }
+                Data = weeklyForecast.ConvertAll(wf => wf.ToResponse())
+            };
     }
+
+    public async Task<AddWeatherForecastResponse> UpdateWeatherForecast(UpdateWeatherForecastRequest request)
+    {
+        var existingForecast = await _forecastRepository.GetWeatherForecastById(request.WeatherForecastId);
+        if (existingForecast == null)
+        {
+            throw new ForecastDoesNotExistsException($"Weather forecast with Id {request.WeatherForecastId} does not exist.");
+        }
+
+        var forecastHourlies = request.WeatherForecastHourlies.ConvertAll(fh => fh.ToEntity());
+        existingForecast.UpdateHourlyForecasts(forecastHourlies);
+
+        var updatedForecast = await _forecastRepository.UpdateWeatherForecast(existingForecast);
+
+        return updatedForecast.ToResponse();
+    }
+}
 }

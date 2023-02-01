@@ -13,6 +13,8 @@ services:
         - MYSQL_PASSWORD=admin
         - MYSQL_USER=admin
         - MYSQL_DATABASE=dbo
+        healthcheck:
+             test: "/usr/bin/mysql --user=root -p$$MYSQL_ROOT_PASSWORD --execute \"SHOW DATABASES;\""
     api:
         container_name: api
         ports:
@@ -24,7 +26,8 @@ services:
         - ASPNETCORE_URLS=http://+:5001
         - ConnectionStrings__MariaDB=server=mariadb;port=3306;user=admin;password=admin;database=dbo
         depends_on:
-        - mariadb
+            mariadb:
+                condition: service_healthy
             
 volumes:
   mariadb_data_container:
