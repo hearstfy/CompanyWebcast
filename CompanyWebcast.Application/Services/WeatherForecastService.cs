@@ -38,15 +38,15 @@ namespace CompanyWebcast.Application.Services
             };
     }
 
-    public async Task<AddWeatherForecastResponse> UpdateWeatherForecast(Guid id, List<AddUpdateWeatherForecastHourlyRequest> request)
+    public async Task<AddWeatherForecastResponse> UpdateWeatherForecast(UpdateWeatherForecastRequest request)
     {
-        var existingForecast = await _forecastRepository.GetWeatherForecastById(id);
+        var existingForecast = await _forecastRepository.GetWeatherForecastById(request.WeatherForecastId);
         if (existingForecast == null)
         {
-            throw new ForecastDoesNotExistsException($"Weather forecast with Id {id} does not exist.");
+            throw new ForecastDoesNotExistsException($"Weather forecast with Id {request.WeatherForecastId} does not exist.");
         }
 
-        var forecastHourlies = request.ConvertAll(fh => fh.ToEntity());
+        var forecastHourlies = request.WeatherForecastHourlies.ConvertAll(fh => fh.ToEntity());
         existingForecast.UpdateHourlyForecasts(forecastHourlies);
 
         var updatedForecast = await _forecastRepository.UpdateWeatherForecast(existingForecast);

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace CompanyWebcast.Application.Common.Requests
 {
-    internal class UpdateWeatherForecastRequest
+    public class UpdateWeatherForecastRequest
     {
+        public Guid WeatherForecastId { get; set; }
+        public List<AddUpdateWeatherForecastHourlyRequest> WeatherForecastHourlies { get; set; }
     }
 }
