@@ -1,12 +1,12 @@
-﻿using CompanyWebcast.Application.Common.DTOs;
+﻿using CompanyWebcast.Application.Common.Requests;
 using CompanyWebcast.Domain.WeatherForecast;
 using CompanyWebcast.Domain.WeatherForecast.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace CompanyWebcast.UnitTests.Helpers.DataProviders
+namespace CompanyWebcast.UnitTests.Fixtures
 {
-    public static class WeatherForecastDataProvider
+    public static class WeatherForecastFixture
     {
         public static Random random = new Random();
         public static List<WeatherForecast> GetWeatherForecasts(int forecastSize)
@@ -45,20 +45,20 @@ namespace CompanyWebcast.UnitTests.Helpers.DataProviders
             return forecastHourlies;
         }
 
-        public static List<AddWeatherForecastHourlyDTO> GetAddWeatherForecastDTOs(int size)
+        public static List<AddUpdateWeatherForecastHourlyRequest> GetAddWeatherForecastRequests(int size)
         {
-            var list = new List<AddWeatherForecastHourlyDTO>();
+            var list = new List<AddUpdateWeatherForecastHourlyRequest>();
             for (var i = 0; i < size; i++)
             {
-                list.Add(GetWeatherForecastHourlyDTO(i, i+1, random.Next(-60,60)));
+                list.Add(GetWeatherForecastHourlyRequest(i, i + 1, random.Next(-60, 60)));
             }
 
             return list;
         }
 
-        public static AddWeatherForecastHourlyDTO GetWeatherForecastHourlyDTO(int startHour, int endHour, double temperature)
+        public static AddUpdateWeatherForecastHourlyRequest GetWeatherForecastHourlyRequest(int startHour, int endHour, double temperature)
         {
-            return new AddWeatherForecastHourlyDTO()
+            return new AddUpdateWeatherForecastHourlyRequest()
             {
                 StartHour = startHour,
                 EndHour = endHour,
@@ -66,48 +66,37 @@ namespace CompanyWebcast.UnitTests.Helpers.DataProviders
             };
         }
 
-        public static AddWeatherForecastDTO GetAddWeatherForecastDTO(DateTime? date)
+        public static AddWeatherForecastRequest GetAddWeatherForecastRequest(DateTime? date)
         {
-            var addHourlyDTOs = GetAddWeatherForecastHourlyDTOs(random.Next(1,24));
-            return new AddWeatherForecastDTO()
+            var addHourlies = GetAddWeatherForecastHourlyRequests(random.Next(1, 24));
+            return new AddWeatherForecastRequest()
             {
-                Date = date ?? DateTime.Now,
-                WeatherForecastsHourly = addHourlyDTOs
+                Date = date != null ? DateOnly.FromDateTime((DateTime)date) : DateOnly.FromDateTime(DateTime.Now),
+                Hourlies = addHourlies
             };
 
         }
 
-        public static List<AddWeatherForecastHourlyDTO> GetAddWeatherForecastHourlyDTOs(int size)
+        public static List<AddUpdateWeatherForecastHourlyRequest> GetAddWeatherForecastHourlyRequests(int size)
         {
-            var list = new List<AddWeatherForecastHourlyDTO>();
+            var list = new List<AddUpdateWeatherForecastHourlyRequest>();
 
-            for(var i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
-                list.Add(GetAddWeatherForecastHourlyDTO(i, i+1 , random.Next(-60,60)));
+                list.Add(GetAddWeatherForecastHourlyRequest(i, i + 1, random.Next(-60, 60)));
             }
 
             return list;
         }
 
-        public static AddWeatherForecastHourlyDTO GetAddWeatherForecastHourlyDTO(int startHour, int endHour, double temperature)
+        public static AddUpdateWeatherForecastHourlyRequest GetAddWeatherForecastHourlyRequest(int startHour, int endHour, double temperature)
         {
-            return new AddWeatherForecastHourlyDTO()
+            return new AddUpdateWeatherForecastHourlyRequest()
             {
                 StartHour = startHour,
                 EndHour = endHour,
                 TemperatureC = temperature
             };
-        }
-
-        public static List<AddWeatherForecastHourlyDTO> GetWeatherForecastHourlyDTOs(int size)
-        {
-            var list = new List<AddWeatherForecastHourlyDTO>();
-            for (var i = 0; i < size; i++)
-            {
-                list.Add(GetWeatherForecastHourlyDTO(i, i + 1, random.Next(-60, 60)));
-            }
-
-            return list;
         }
     }
 }
