@@ -1,4 +1,5 @@
-﻿using CompanyWebcast.Application.Common.DTOs;
+﻿using CompanyWebcast.API.DTOs;
+using CompanyWebcast.API.Mappings;
 using CompanyWebcast.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,14 +19,14 @@ namespace CompanyWebcast.API.Controllers
         [HttpPost()]
         public async Task<IActionResult> AddForecast([FromBody]AddWeatherForecastDTO forecastDTO)
         {
-            var newForecast = await _forecastService.AddWeatherForecast(forecastDTO);
+            var newForecast = await _forecastService.AddWeatherForecast(forecastDTO.ToRequest());
             return Created(nameof(AddForecast), newForecast);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateForecast([FromRoute] Guid id, [FromBody]List<AddWeatherForecastHourlyDTO> forecastHourlyDTOs)
         {
-            var updatedForecast = await _forecastService.UpdateWeatherForecast(id, forecastHourlyDTOs);
+            var updatedForecast = await _forecastService.UpdateWeatherForecast(id, forecastHourlyDTOs.ConvertAll(fh => fh.ToRequest()));
             return Ok(updatedForecast);
         }
 
